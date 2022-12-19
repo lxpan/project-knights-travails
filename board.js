@@ -4,10 +4,12 @@ const rows = 8;
 const columns = 8;
 const board = []
 
+// populate board with empty spaces (denoted by zeroes)
 for (let i = 0; i < rows; i++) {
     board.push(Array(columns).fill(0))
 }
 
+// check if a potential move is within bounds of the 8x8 board
 function isMoveLegal(move) {
     const x = move[0];
     const y = move[1];
@@ -17,8 +19,11 @@ function isMoveLegal(move) {
     return false;
 }
 
+// enumerate all valid moves from an (x,y) board position
 function listMoves(x, y) {
     const validMoves = [];
+
+    // list of all possible knight moves
     const candidateMoves = [
         [(x - 2), (y + 1)], // A1
         [(x - 1), (y + 2)], // A2
@@ -30,6 +35,7 @@ function listMoves(x, y) {
         [(x - 2), (y - 1)], // D2
     ];
 
+    // run all possible move patterns from and all valid moves to array
     candidateMoves.forEach((move) => {
         if(isMoveLegal(move)) {
             validMoves.push(move);
