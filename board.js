@@ -44,10 +44,12 @@ function listMoves(x, y) {
 
     return validMoves;
 }
+const startX = 3;
+const startY = 1;
 
-board[3][1] = 'K';
+board[startX][startY] = 'K';
 
-const validMoves = listMoves(3,1);
+const validMoves = listMoves(startX, startY);
 validMoves.forEach(move => {
     const x = move[0];
     const y = move[1];
