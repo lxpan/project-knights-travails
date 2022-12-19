@@ -1,12 +1,12 @@
 // Create an 8x8 hess Board
 
-const rows = 8;
-const columns = 8;
+const ROWS = 8;
+const COLUMNS = 8;
 const board = []
 
 // populate board with empty spaces (denoted by zeroes)
-for (let i = 0; i < rows; i++) {
-    board.push(Array(columns).fill(0))
+for (let i = 0; i < ROWS; i++) {
+    board.push(Array(COLUMNS).fill(0))
 }
 
 // check if a potential move is within bounds of the 8x8 board
