@@ -1,11 +1,14 @@
-// Create an 8x8 hess Board
+// Create an 8x8 chess Board
 
 const ROWS = 8;
 const COLUMNS = 8;
+
+// note that this board array is referenced as board[Y-coord][X-coord]
 const board = []
 
 // populate board with empty spaces (denoted by zeroes)
 for (let i = 0; i < ROWS; i++) {
+    // note that board[i] refers to Y coordinates, i.e. rows
     board.push(Array(COLUMNS).fill(0))
 }
 
@@ -22,6 +25,9 @@ function isMoveLegal(move) {
 // enumerate all valid moves from an (x,y) board position
 function listMoves(x, y) {
     const validMoves = [];
+
+    // const x = columnCoord;
+    // const y = rowCoord;
 
     // list of all possible knight moves
     const candidateMoves = [
@@ -44,12 +50,15 @@ function listMoves(x, y) {
 
     return validMoves;
 }
-const startX = 3;
-const startY = 1;
 
-board[startX][startY] = 'K';
+const startMove = [7, 1]; // x = 3, y = 1
+const rowCoord = startMove[1];
+const columnCoord = startMove[0];
 
-const validMoves = listMoves(startX, startY);
+board[rowCoord][columnCoord] = 'K';
+
+const validMoves = listMoves(rowCoord, columnCoord);
+
 validMoves.forEach(move => {
     const x = move[0];
     const y = move[1];
