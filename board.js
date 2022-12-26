@@ -23,7 +23,11 @@ function isMoveLegal(move) {
 }
 
 // enumerate all valid moves from an (x,y) board position
-function listMoves(x, y) {
+// input [row, col]
+function listMoves(position) {
+    const x = position[0];
+    const y = position[1];
+
     const validMoves = [];
 
     // const x = columnCoord;
@@ -51,22 +55,74 @@ function listMoves(x, y) {
     return validMoves;
 }
 
-const startMove = [7, 1]; // x = 3, y = 1
-const rowCoord = startMove[1];
-const columnCoord = startMove[0];
+function renderMovesOnBoard(current, possibleMoves) {
+    board[current[0]][current[1]] = 'K';
 
-board[rowCoord][columnCoord] = 'K';
+    possibleMoves.forEach(move => {
+        const x = move[0];
+        const y = move[1];
+        board[x][y] = 'V';
+    })
 
-const validMoves = listMoves(rowCoord, columnCoord);
+    // console.log(`Start: ${current}`);
+    // console.log(`Valid moves: ${possibleMoves}`);
+    console.table(board);
+}
 
-validMoves.forEach(move => {
-    const x = move[0];
-    const y = move[1];
-    board[x][y] = 'V';
-})
+function arrayEqual(arrA, arrB) {
+    if ( (arrA[0] === arrB[0]) & arrA[1] === arrB[1]) {
+        return true;
+    }
+    return false;
+}
 
-console.log(validMoves)
-console.table(board);;
+function findPath(start, destination) {
+    let moveNumber = 0;
+    let distance = 0;
 
-// const s = [1, 1];
-// const translatedPos = [s[0] + 7, s[1] + 7]
+    const queue = [];
+    const nodesVisited = new Set();
+
+    queue.push(start);
+
+    while (queue.length > 0) {
+        // dequeue
+        const node = queue.shift();
+        nodesVisited.add(node);
+
+        board[node[0]][node[1]] = moveNumber;
+        moveNumber += 1;
+        
+        // if current position equals destination
+        if(arrayEqual(node, destination)) {
+            console.log(`Destination found: ${destination}`);
+            console.log(`Nodes visited: ${Array.from(nodesVisited)}`);
+            board[node[0]][node[1]] = 'D';
+            return;
+        }
+
+        // enqueue
+        const candidateMoves = listMoves(node);
+        // console.log(`Valid move of valid move: ${candidateMoves}`);
+        if(candidateMoves) {
+            candidateMoves.forEach( (move) => {
+                // add new potential moves to queue
+                queue.push(move)
+            });
+        }
+    }
+
+    console.log(validMoves);
+    console.log(nodesVisited);
+}
+
+// positions: [x, y] => [col#), (row#)]
+const startPos = [1, 7]; // x = 7, y = 1
+// (3, 6), (5, 7)
+const targetPos = [5, 7]
+
+// renderMovesOnBoard(startPos, [[1, 1]]);
+
+findPath(startPos, targetPos);
+board[startPos[0]][startPos[1]] = 'S';
+console.table(board);
