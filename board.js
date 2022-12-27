@@ -58,6 +58,7 @@ function listMoves(position) {
     return validMoves;
 }
 
+// required as JavaScript object comparisons don't compare inner values
 function arrayEqual(arrA, arrB) {
     if ((arrA[0] === arrB[0]) & (arrA[1] === arrB[1])) {
         return true;
@@ -65,6 +66,7 @@ function arrayEqual(arrA, arrB) {
     return false;
 }
 
+// trace full move sequence once destination is found
 function pathTrace(lastNode) {
     let node = lastNode;
     const path = [];
@@ -77,6 +79,7 @@ function pathTrace(lastNode) {
     return path.reverse();
 }
 
+// visualise move sequence on the board
 function visualiseTrace(path) {
     const traceBoard = createBoard();
     let moveNumber = 0;
@@ -96,6 +99,7 @@ function visualiseTrace(path) {
     return traceBoard;
 }
 
+// find shortest knight path using breadth first search
 function findPath(start, destination) {
     const startPosition = new Node(start);
 
@@ -143,15 +147,12 @@ function findPath(start, destination) {
                 } else {
                     let nodePosition = new Node(move);
                     nodePosition.parent = node;
-                    // add new potential moves to queue
+                    // add new potential move to queue
                     queue.push(nodePosition);
                 }
             });
         }
     }
-
-    // console.log(validMoves);
-    console.log(visited);
 }
 
 const board = createBoard();
