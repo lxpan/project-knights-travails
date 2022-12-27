@@ -1,4 +1,4 @@
-class Node {
+export default class Node {
     constructor(position) {
         this.position = position; // [x, y]
         this.parent = null;
@@ -13,4 +13,3 @@ class Node {
         this.children.push(child);
     }
 }
-
