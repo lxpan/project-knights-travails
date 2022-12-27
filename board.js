@@ -5,13 +5,17 @@ import Node from './node.js';
 const ROWS = 8;
 const COLUMNS = 8;
 
-// note that this board array is referenced as board[Y-coord][X-coord]
-const board = []
+function createBoard() {
+    // note that this board array is referenced as board[Y-coord][X-coord]
+    const _board = []
 
-// populate board with empty spaces (denoted by zeroes)
-for (let i = 0; i < ROWS; i++) {
-    // note that board[i] refers to Y coordinates, i.e. rows
-    board.push(Array(COLUMNS).fill(0))
+    // populate board with empty spaces (denoted by zeroes)
+    for (let i = 0; i < ROWS; i++) {
+        // note that board[i] refers to Y coordinates, i.e. rows
+        _board.push(Array(COLUMNS).fill(0))
+    }
+
+    return _board;
 }
 
 // check if a potential move is within bounds of the 8x8 board
@@ -146,12 +150,11 @@ function findPath(start, destination) {
     console.log(visited);
 }
 
+const board = createBoard();
+
 // positions: [x, y] => [col#), (row#)]
 const startPos = [1, 7]; // x = 7, y = 1
-// (3, 6), (5, 7)
 const targetPos = [0, 0];
-
-// renderMovesOnBoard(startPos, [[1, 1]]);
 
 findPath(startPos, targetPos);
 board[startPos[0]][startPos[1]] = 'S';
