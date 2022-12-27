@@ -94,6 +94,26 @@ function pathTrace(lastNode) {
     return path.reverse();
 }
 
+function visualiseTrace(path) {
+    const traceBoard = createBoard()
+    let moveNumber = 0;
+
+    for(let i = 0; i < path.length; i ++) {
+        const position = path[i];
+
+        if(i === 0) {
+            traceBoard[position[0]][position[1]] = 'S';
+        } else {
+            traceBoard[position[0]][position[1]] = moveNumber;
+        }
+
+        moveNumber += 1;
+
+    }
+
+    return traceBoard;
+}
+
 function findPath(start, destination) {
     const startPosition = new Node(start);
 
@@ -121,7 +141,11 @@ function findPath(start, destination) {
             board[node.position[0]][node.position[1]] = 'D';
 
             const path = pathTrace(node);
+            console.log(`Shortest path found in ${path.length} moves:`);
             console.log(path);
+
+            const movePathBoard = visualiseTrace(path);
+            console.table(movePathBoard);
 
             return;
         }
@@ -158,4 +182,5 @@ const targetPos = [0, 0];
 
 findPath(startPos, targetPos);
 board[startPos[0]][startPos[1]] = 'S';
+// this shows all the nodes explored by the algorithm
 console.table(board);
