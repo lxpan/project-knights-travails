@@ -78,23 +78,22 @@ function arrayEqual(arrA, arrB) {
     return false;
 }
 
-// function pathTrace(lastNode) {
-//     let node = lastNode;
-//     const path = [];
+function pathTrace(lastNode) {
+    let node = lastNode;
+    const path = [];
 
-//     while(node !== null) {
-//         path.push(node.position)
-//         node = node.parent;
-//     }
+    while(node !== null) {
+        path.push(node.position)
+        node = node.parent;
+    }
 
-//     return path.reverse();
-// }
+    return path.reverse();
+}
 
 function findPath(start, destination) {
     const startPosition = new Node(start);
 
-    let moveNumber = 0;
-    let distance = 0;
+    let nodeNumber = 0;
 
     const queue = [];
     const visited = new Set();
@@ -111,8 +110,8 @@ function findPath(start, destination) {
         //     continue;
         // }
 
-        board[node.position[0]][node.position[1]] = moveNumber;
-        moveNumber += 1;
+        board[node.position[0]][node.position[1]] = nodeNumber;
+        nodeNumber += 1;
         
         // if current position equals destination
         if(arrayEqual(node.position, destination)) {
@@ -120,8 +119,8 @@ function findPath(start, destination) {
             // console.log(`Nodes visited: ${Array.from(visited)}`);
             board[node.position[0]][node.position[1]] = 'D';
 
-            // const path = pathTrace(node);
-            // console.log(path);
+            const path = pathTrace(node);
+            console.log(path);
 
             return;
         }
@@ -146,7 +145,7 @@ function findPath(start, destination) {
 // positions: [x, y] => [col#), (row#)]
 const startPos = [1, 7]; // x = 7, y = 1
 // (3, 6), (5, 7)
-const targetPos = [5, 7]
+const targetPos = [7, 7]
 
 // renderMovesOnBoard(startPos, [[1, 1]]);
 
