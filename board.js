@@ -1,3 +1,5 @@
+import Node from './node.js';
+
 // Create an 8x8 chess Board
 
 const ROWS = 8;
@@ -76,57 +78,75 @@ function arrayEqual(arrA, arrB) {
     return false;
 }
 
+// function pathTrace(lastNode) {
+//     let node = lastNode;
+//     const path = [];
+
+//     while(node !== null) {
+//         path.push(node.position)
+//         node = node.parent;
+//     }
+
+//     return path.reverse();
+// }
+
 function findPath(start, destination) {
+    const startPosition = new Node(start);
+
     let moveNumber = 0;
     let distance = 0;
 
     const queue = [];
     const visited = new Set();
 
-    queue.push(start);
+    queue.push(startPosition);
 
     while (queue.length > 0) {
         // dequeue
         const node = queue.shift();
 
         // have we seen it before?
-        if(visited.has(JSON.stringify(node))) {
-            console.log(`Seen ${node} before`);
-            continue;
-        } else {
-            visited.add(JSON.stringify(node));
-        }
+        // if(node.parent !== null) {
+        //     console.log(`Node ${node.position} seen before from parent ${node.parent.position}`);
+        //     continue;
+        // }
 
-        board[node[0]][node[1]] = moveNumber;
+        board[node.position[0]][node.position[1]] = moveNumber;
         moveNumber += 1;
         
         // if current position equals destination
-        if(arrayEqual(node, destination)) {
+        if(arrayEqual(node.position, destination)) {
             console.log(`Destination found: ${destination}`);
-            console.log(`Nodes visited: ${Array.from(visited)}`);
-            board[node[0]][node[1]] = 'D';
+            // console.log(`Nodes visited: ${Array.from(visited)}`);
+            board[node.position[0]][node.position[1]] = 'D';
+
+            // const path = pathTrace(node);
+            // console.log(path);
+
             return;
         }
 
+        const candidateMoves = listMoves(node.position);
+
         // enqueue (expand current node by listing valid moves)
-        const candidateMoves = listMoves(node);
-        // console.log(`Valid move of valid move: ${candidateMoves}`);
         if(candidateMoves) {
             candidateMoves.forEach( (move) => {
+                let nodePosition = new Node(move);
+                nodePosition.parent = node;
                 // add new potential moves to queue
-                queue.push(move)
+                queue.push(nodePosition)
             });
         }
     }
 
-    console.log(validMoves);
-    console.log(nodesVisited);
+    // console.log(validMoves);
+    console.log(visited);
 }
 
 // positions: [x, y] => [col#), (row#)]
 const startPos = [1, 7]; // x = 7, y = 1
 // (3, 6), (5, 7)
-const targetPos = [7, 6]
+const targetPos = [5, 7]
 
 // renderMovesOnBoard(startPos, [[1, 1]]);
 
