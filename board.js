@@ -103,12 +103,8 @@ function findPath(start, destination) {
     while (queue.length > 0) {
         // dequeue
         const node = queue.shift();
-
-        // have we seen it before?
-        // if(node.parent !== null) {
-        //     console.log(`Node ${node.position} seen before from parent ${node.parent.position}`);
-        //     continue;
-        // }
+        
+        visited.add(JSON.stringify(node.position));
 
         board[node.position[0]][node.position[1]] = nodeNumber;
         nodeNumber += 1;
@@ -116,6 +112,7 @@ function findPath(start, destination) {
         // if current position equals destination
         if(arrayEqual(node.position, destination)) {
             console.log(`Destination found: ${destination}`);
+            // console.log(`Visited: ${Array.from(visited)}`);
             // console.log(`Nodes visited: ${Array.from(visited)}`);
             board[node.position[0]][node.position[1]] = 'D';
 
@@ -129,11 +126,18 @@ function findPath(start, destination) {
 
         // enqueue (expand current node by listing valid moves)
         if(candidateMoves) {
+            
             candidateMoves.forEach( (move) => {
-                let nodePosition = new Node(move);
-                nodePosition.parent = node;
-                // add new potential moves to queue
-                queue.push(nodePosition)
+                // check position hasn't already been seen before
+
+                if(visited.has(JSON.stringify(move))) {
+
+                } else {
+                    let nodePosition = new Node(move);
+                    nodePosition.parent = node;
+                    // add new potential moves to queue
+                    queue.push(nodePosition)
+                }
             });
         }
     }
@@ -145,7 +149,7 @@ function findPath(start, destination) {
 // positions: [x, y] => [col#), (row#)]
 const startPos = [1, 7]; // x = 7, y = 1
 // (3, 6), (5, 7)
-const targetPos = [7, 7]
+const targetPos = [0, 0];
 
 // renderMovesOnBoard(startPos, [[1, 1]]);
 
