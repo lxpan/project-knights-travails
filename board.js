@@ -127,7 +127,7 @@ function findPath(start, destination) {
 
             const path = pathTrace(node);
             console.log(
-                `Path found in ${path.length - 1} moves! Here is your path: `
+                `Arrived in ${path.length - 1} moves! Here is your path: `
             ); // - 1 to discount starting position
             console.log(path);
 
@@ -159,9 +159,9 @@ const board = createBoard();
 
 // positions: [x, y] => [col#), (row#)]
 const startPos = [0, 4];
-const targetPos = [7, 4];
+const targetPos = [7, 7];
 
 findPath(startPos, targetPos);
 board[startPos[0]][startPos[1]] = 'S';
 // this shows all the nodes explored by the algorithm
-console.table(board);
+// console.table(board);
