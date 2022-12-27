@@ -36,9 +36,6 @@ function listMoves(position) {
 
     const validMoves = [];
 
-    // const x = columnCoord;
-    // const y = rowCoord;
-
     // list of all possible knight moves
     const candidateMoves = [
         [(x - 2), (y + 1)], // A1
@@ -59,20 +56,6 @@ function listMoves(position) {
     })
 
     return validMoves;
-}
-
-function renderMovesOnBoard(current, possibleMoves) {
-    board[current[0]][current[1]] = 'K';
-
-    possibleMoves.forEach(move => {
-        const x = move[0];
-        const y = move[1];
-        board[x][y] = 'V';
-    })
-
-    // console.log(`Start: ${current}`);
-    // console.log(`Valid moves: ${possibleMoves}`);
-    console.table(board);
 }
 
 function arrayEqual(arrA, arrB) {
@@ -130,14 +113,13 @@ function findPath(start, destination) {
         
         visited.add(JSON.stringify(node.position));
 
+        // record sequence of nodes explored on board
         board[node.position[0]][node.position[1]] = nodeNumber;
         nodeNumber += 1;
         
         // if current position equals destination
         if(arrayEqual(node.position, destination)) {
             console.log(`Destination found: ${destination}`);
-            // console.log(`Visited: ${Array.from(visited)}`);
-            // console.log(`Nodes visited: ${Array.from(visited)}`);
             board[node.position[0]][node.position[1]] = 'D';
 
             const path = pathTrace(node);
@@ -150,14 +132,12 @@ function findPath(start, destination) {
             return;
         }
 
+        // enqueue (expand current node by listing valid moves)
         const candidateMoves = listMoves(node.position);
 
-        // enqueue (expand current node by listing valid moves)
         if(candidateMoves) {
-            
             candidateMoves.forEach( (move) => {
-                // check position hasn't already been seen before
-
+                // check that position hasn't already been seen before
                 if(visited.has(JSON.stringify(move))) {
 
                 } else {
@@ -177,7 +157,7 @@ function findPath(start, destination) {
 const board = createBoard();
 
 // positions: [x, y] => [col#), (row#)]
-const startPos = [0, 4]; // x = 7, y = 1
+const startPos = [0, 4];
 const targetPos = [7, 4];
 
 findPath(startPos, targetPos);
