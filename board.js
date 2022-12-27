@@ -81,14 +81,21 @@ function findPath(start, destination) {
     let distance = 0;
 
     const queue = [];
-    const nodesVisited = new Set();
+    const visited = new Set();
 
     queue.push(start);
 
     while (queue.length > 0) {
         // dequeue
         const node = queue.shift();
-        nodesVisited.add(node);
+
+        // have we seen it before?
+        if(visited.has(JSON.stringify(node))) {
+            console.log(`Seen ${node} before`);
+            continue;
+        } else {
+            visited.add(JSON.stringify(node));
+        }
 
         board[node[0]][node[1]] = moveNumber;
         moveNumber += 1;
@@ -96,12 +103,12 @@ function findPath(start, destination) {
         // if current position equals destination
         if(arrayEqual(node, destination)) {
             console.log(`Destination found: ${destination}`);
-            console.log(`Nodes visited: ${Array.from(nodesVisited)}`);
+            console.log(`Nodes visited: ${Array.from(visited)}`);
             board[node[0]][node[1]] = 'D';
             return;
         }
 
-        // enqueue
+        // enqueue (expand current node by listing valid moves)
         const candidateMoves = listMoves(node);
         // console.log(`Valid move of valid move: ${candidateMoves}`);
         if(candidateMoves) {
@@ -119,7 +126,7 @@ function findPath(start, destination) {
 // positions: [x, y] => [col#), (row#)]
 const startPos = [1, 7]; // x = 7, y = 1
 // (3, 6), (5, 7)
-const targetPos = [5, 7]
+const targetPos = [7, 6]
 
 // renderMovesOnBoard(startPos, [[1, 1]]);
 
