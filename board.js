@@ -12,7 +12,7 @@ function createBoard() {
     // populate board with empty spaces (denoted by zeroes)
     for (let i = 0; i < ROWS; i++) {
         // note that board[i] refers to Y coordinates, i.e. rows
-        _board.push(Array(COLUMNS).fill(0))
+        _board.push(Array(COLUMNS).fill('⬚'))
     }
 
     return _board;
